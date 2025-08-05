@@ -282,7 +282,7 @@ whose unique minimizer is the mean of $\{a_i\}$ ([ResearchGate](https://www.rese
 Distributed (sub)gradient methods combine a gradient step with local averaging, yielding the **Distributed Gradient Descent (DGD)**  iteration:
 
 $$
-x_i^{(k+1)} =\sum_{j=1}^N W_{ij}\,x_j^{(k)} -\alpha\bigl(x_i^{(k)} - a_i\bigr), 
+x_i^{(k+1)} =\sum_{j=1}^N W_{ij}x_j^{(k)} -\alpha\bigl(x_i^{(k)} - a_i\bigr) 
 $$
 
 where $W$ is a consensus weight matrix and $\alpha>0$ a step size ([SCIRP](https://www.scirp.org/%28S%28czeh2tfqw2orz553k1w0r45%29%29/reference/referencespapers?referenceid=3220708) ). Convergence under diminishing or small constant step sizes is well understood ([Massachusetts Institute of Technology](https://web.mit.edu/Asuman/Desktop/asuman/www/documents/distributed-journal-final.pdf)) .
@@ -564,18 +564,13 @@ We'll use a common ADMM formulation for resource allocation problems. Each agent
    
    * **Step 1: Primal Update (Local Power Allocation $p_i$)**
      At *each outer-loop iteration $k$*, each agent $i$ solves its local optimization problem, taking into account its preference $p_{\text{pref},i}$ and its current estimate of the price $\lambda_i^k$. We also add a proximal term $\frac{\beta}{2}(p_i - p_i^k)^2$ for stability and to make it ADMM-like (though simpler forms exist). If $\beta=0$, this is closer to dual ascent.
-     $p_i^{k+1} = \mathrm{argmin}_{p_{\text{val}} \ge 0} \left\{ (p_{\text{val}} - p_{\text{pref},i})^2 + \lambda_i^k p_{\text{val}} + \frac{\beta}{2}(p_{\text{val}} - p_i^k)^2 \right\}$
-     The solution to this quadratic problem (by setting derivative to zero and applying non-negativity) is:
-     $p_i^{k+1} = \max\left(0, \frac{2 p_{\text{pref},i} - \lambda_i^k + \beta p_i^k}{2 + \beta}\right)$
    
    * **Step 2: Dual Variable Update (Local Price Update $\lambda_i$)**
      This step involves two sub-steps:
+     
      a.  **Estimating Constraint Violation:** Each agent needs an estimate of the total current power draw $\sum_j p_j^{k+1}$ to see if it matches $P_{\text{total}}$. This sum is computed distributively using a consensus algorithm (like the DGD we used before, but now for summing $p_j^{k+1}$).
-     b.  **Updating $\lambda_i$:** Each agent updates its $\lambda_i$ based on its old $\lambda_i^k$ and its estimate of the global constraint violation. A common update is:
      
-     $\lambda_i^{\mathrm{local\_update}, k+1} = \lambda_i^k + \rho \left( \left(\sum_j p_j^{k+1}\right)_i^{\text{estimate}} - P_{\text{total}} \right)$
-     
-     where $\rho$ is a penalty parameter (step size for ADMM), and $(\sum_j p_j^{k+1})_i^{\text{estimate}}$ is agent $i$'s estimate of the total sum obtained from the consensus sub-step.
+     b.  **Updating $\lambda_i$** 
    
    * **Step 3: Dual Variable Consensus (Price Agreement $\lambda_i$)**
      Since each $\lambda_i$ should ideally converge to a common $\lambda^*$, agents run a consensus protocol on their $\lambda_i^{\mathrm{local\_update}, k+1}$ values.
