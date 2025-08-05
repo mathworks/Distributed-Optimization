@@ -263,7 +263,7 @@ State-of-the-art distributed optimization in multi-agent and swarm contexts syne
 Below is a prototype MATLAB script that illustrates a classic **average consensus**  toy problem in distributed optimization. Agents cooperatively minimize the quadratic cost
 
 $$
-f(x)\;=\;\sum_{i=1}^N \tfrac12\bigl(x - a_i\bigr)^2 
+f(x)=\sum_{i=1}^N \tfrac12\bigl(x - a_i\bigr)^2 
 $$
 
 by alternating **local gradient steps**  with **consensus averaging**  over a connected communication graph.
@@ -275,14 +275,14 @@ by alternating **local gradient steps**  with **consensus averaging**  over a co
 One of the canonical toy problems in distributed optimization is the **average consensus**  problem, where $N$ agents seek to agree on the average of their initial values using only local communication ([Diva Portal](https://www.diva-portal.org/smash/get/diva2%3A453798/FULLTEXT01.pdf)) . Alternatively, this can be viewed as minimizing the quadratic cost
 
 $$
-f(x)\;=\;\sum_{i=1}^N \frac12\,(x - a_i)^2, 
+f(x)=\sum_{i=1}^N \frac12\,(x - a_i)^2, 
 $$
 
 whose unique minimizer is the mean of $\{a_i\}$ ([ResearchGate](https://www.researchgate.net/publication/224371202_Distributed_Subgradient_Methods_for_Multi-Agent_Optimization)) .
 Distributed (sub)gradient methods combine a gradient step with local averaging, yielding the **Distributed Gradient Descent (DGD)**  iteration:
 
 $$
-x_i^{(k+1)} \;=\;\sum_{j=1}^N W_{ij}\,x_j^{(k)} \;-\;\alpha\;\bigl(x_i^{(k)} - a_i\bigr), 
+x_i^{(k+1)} =\sum_{j=1}^N W_{ij}\,x_j^{(k)} -\alpha\bigl(x_i^{(k)} - a_i\bigr), 
 $$
 
 where $W$ is a consensus weight matrix and $\alpha>0$ a step size ([SCIRP](https://www.scirp.org/%28S%28czeh2tfqw2orz553k1w0r45%29%29/reference/referencespapers?referenceid=3220708) ). Convergence under diminishing or small constant step sizes is well understood ([Massachusetts Institute of Technology](https://web.mit.edu/Asuman/Desktop/asuman/www/documents/distributed-journal-final.pdf)) .
