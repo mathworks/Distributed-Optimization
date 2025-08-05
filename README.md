@@ -1397,7 +1397,7 @@ Where:
 #### MPC Objective Function (`mpcObjectiveTruck_i`)
 
 This function calculates the total cost $J_i$ for a given acceleration sequence `a_i_seq` for truck $i$.
-Internally, it uses `a_i_seq` to predict the position $s_i\_pred$ and velocity $v_i\_pred$ of truck $i$ up to $H_p$ steps ahead.
+Internally, it uses `a_i_seq` to predict the position $s_{i\_pred}$ and velocity $v_{i\_pred}$ of truck $i$ up to $H_p$ steps ahead.
 Then, based on the predicted states, it calculates the velocity tracking cost, gap control cost (followers only), fuel consumption cost, and acceleration smoothing cost, and sums them up with weights.
 
 ```matlab
