@@ -329,7 +329,8 @@ end
 % True consensus value
 x_star = mean(a);
 
-[...] ⇦　code omitted for brevity```
+[...] ⇦　code omitted for brevity
+```
 
 ---
 
@@ -572,16 +573,16 @@ We'll use a common ADMM formulation for resource allocation problems. Each agent
      a.  **Estimating Constraint Violation:** Each agent needs an estimate of the total current power draw $\sum_j p_j^{k+1}$ to see if it matches $P_{\text{total}}$. This sum is computed distributively using a consensus algorithm (like the DGD we used before, but now for summing $p_j^{k+1}$).
      b.  **Updating $\lambda_i$:** Each agent updates its $\lambda_i$ based on its old $\lambda_i^k$ and its estimate of the global constraint violation. A common update is:
      
-     $\lambda_i^{\text{local\_update}, k+1} = \lambda_i^k + \rho \left( \left(\sum_j p_j^{k+1}\right)_i^{\text{estimate}} - P_{\text{total}} \right)$
+     $\lambda_i^{\mathrm{local\_update}, k+1} = \lambda_i^k + \rho \left( \left(\sum_j p_j^{k+1}\right)_i^{\text{estimate}} - P_{\text{total}} \right)$
      
      where $\rho$ is a penalty parameter (step size for ADMM), and $(\sum_j p_j^{k+1})_i^{\text{estimate}}$ is agent $i$'s estimate of the total sum obtained from the consensus sub-step.
    
    * **Step 3: Dual Variable Consensus (Price Agreement $\lambda_i$)**
-     Since each $\lambda_i$ should ideally converge to a common $\lambda^*$, agents run a consensus protocol on their $\lambda_i^{\text{local\_update}, k+1}$ values.
+     Since each $\lambda_i$ should ideally converge to a common $\lambda^*$, agents run a consensus protocol on their $\lambda_i^{\mathrm{local\_update}, k+1}$ values.
      
-     $\lambda_i^{k+1} = \operatorname{Average\_Consensus}(\lambda^{\text{local\_update}, k+1})$
+     $\lambda_i^{k+1} = \mathrm{Average\_Consensus}(\lambda^{\mathrm{local\_update}, k+1})$
      
-     (i.e., run DGD on $\lambda_j^{\text{local\_update},k+1}$ for several iterations).This structure involves an outer ADMM loop and inner consensus loops for information aggregation.
+     (i.e., run DGD on $\lambda_j^{\mathrm{local\_update},k+1}$ for several iterations).This structure involves an outer ADMM loop and inner consensus loops for information aggregation.
 
 ```matlab
 % Distributed Resource Allocation for EV Charging via ADMM
