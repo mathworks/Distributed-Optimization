@@ -329,8 +329,7 @@ end
 % True consensus value
 x_star = mean(a);
 
-[...] ⇦　code omitted for brevity
-```
+[...] ⇦　code omitted for brevity```
 
 ---
 
@@ -379,14 +378,14 @@ We want to find actual charging rates $p_i$ for each EV such that:
 The analytical solution to this constrained optimization problem is:
 $p_{i, \text{optimal}} = p_{\text{pref},i} + \frac{P_{\text{total}} - \sum_j p_{\text{pref},j}}{N}$
 
-Notice the term $\frac{P_{\text{total}} - \sum_j p_{\text{pref},j}}{N}$. This can be rewritten as $\frac{P_{\text{total}}}{N} - \operatorname{mean}(p_{\text{pref}})$.
-So, $p_{i, \text{optimal}} = p_{\text{pref},i} + \frac{P_{\text{total}}}{N} - \operatorname{mean}(p_{\text{pref}})$.
+Notice the term $\frac{P_{\text{total}} - \sum_j p_{\text{pref},j}}{N}$. This can be rewritten as $\frac{P_{\text{total}}}{N} - \mathrm{mean}(p_{\text{pref}})$.
+So, $p_{i, \text{optimal}} = p_{\text{pref},i} + \frac{P_{\text{total}}}{N} - \mathrm{mean}(p_{\text{pref}})$.
 
 To implement this distributively:
 
 1. Each EV knows its own $p_{\text{pref},i}$ and the global values $P_{\text{total}}$ and $N$.
-2. The EVs need to cooperatively compute $\operatorname{mean}(p_{\text{pref}})$. This is exactly what the Distributed Average Consensus (using DGD) algorithm does!
-3. Once each EV $i$ has a good estimate of $\operatorname{mean}(p_{\text{pref}})$ (let's call its estimate $z_i$), it can calculate its optimal power allocation: $p_i = p_{\text{pref},i} + \frac{P_{\text{total}}}{N} - z_i$.
+2. The EVs need to cooperatively compute $\mathrm{mean}(p_{\text{pref}})$. This is exactly what the Distributed Average Consensus (using DGD) algorithm does!
+3. Once each EV $i$ has a good estimate of $\mathrm{mean}(p_{\text{pref}})$ (let's call its estimate $z_i$), it can calculate its optimal power allocation: $p_i = p_{\text{pref},i} + \frac{P_{\text{total}}}{N} - z_i$.
 
 ### Solve with DGD
 
@@ -492,9 +491,9 @@ end
 1. **Problem Context:** Switched from abstract values $a_i$ to $p_{\text{pref},i}$ (preferred charging rates for EVs). Introduced $P_{\text{total}}$ (total power capacity).
 2. **Optimization Goal:** The agents (EVs) collectively try to achieve an allocation $p_i$ that minimizes $\sum_i (p_i - p_{\text{pref},i})^2$ subject to $\sum_i p_i = P_{\text{total}}$.
 3. **Distributed Computation:**
-   * The core DGD algorithm is used to calculate $\operatorname{mean}(p_{\text{pref}})$ in a distributed manner. Each agent $i$ maintains an estimate $z_i$ which converges to $\operatorname{mean}(p_{\text{pref}})$.
+   * The core DGD algorithm is used to calculate $\mathrm{mean}(p_{\text{pref}})$ in a distributed manner. Each agent $i$ maintains an estimate $z_i$ which converges to $\mathrm{mean}(p_{\text{pref}})$.
    * The DGD update $z = W z - \alpha (z - p_{\text{pref}})$ is analogous to the simple example's $x = W x - \alpha (x - a)$.
-4. **Final Allocation:** Once $\operatorname{mean}(p_{\text{pref}})$ is estimated by each agent (as $z_i$), it computes its own share of the resource: $p_i = p_{\text{pref},i} + \frac{P_{\text{total}}}{N} - z_i$.
+4. **Final Allocation:** Once $\mathrm{mean}(p_{\text{pref}})$ is estimated by each agent (as $z_i$), it computes its own share of the resource: $p_i = p_{\text{pref},i} + \frac{P_{\text{total}}}{N} - z_i$.
 5. **Constraints Handling (Simplified):**
    * $p_i \ge 0$: Added a `max(0, ...)` to ensure non-negative charging rates.
    * $\sum_i p_i = P_{\text{total}}$: Added a simple proportional rescaling heuristic if the sum after `max(0,...)` doesn't match $P_{\text{total}}$. A fully distributed method to handle this precisely while respecting bounds is more complex (e.g., using Alternating Direction Method of Multipliers - ADMM, or more sophisticated dual decomposition methods) but this example shows the core idea.
@@ -564,7 +563,7 @@ We'll use a common ADMM formulation for resource allocation problems. Each agent
    
    * **Step 1: Primal Update (Local Power Allocation $p_i$)**
      At *each outer-loop iteration $k$*, each agent $i$ solves its local optimization problem, taking into account its preference $p_{\text{pref},i}$ and its current estimate of the price $\lambda_i^k$. We also add a proximal term $\frac{\beta}{2}(p_i - p_i^k)^2$ for stability and to make it ADMM-like (though simpler forms exist). If $\beta=0$, this is closer to dual ascent.
-     $p_i^{k+1} = \operatorname{argmin}_{p_{\text{val}} \ge 0} \left\{ (p_{\text{val}} - p_{\text{pref},i})^2 + \lambda_i^k p_{\text{val}} + \frac{\beta}{2}(p_{\text{val}} - p_i^k)^2 \right\}$
+     $p_i^{k+1} = \mathrm{argmin}_{p_{\text{val}} \ge 0} \left\{ (p_{\text{val}} - p_{\text{pref},i})^2 + \lambda_i^k p_{\text{val}} + \frac{\beta}{2}(p_{\text{val}} - p_i^k)^2 \right\}$
      The solution to this quadratic problem (by setting derivative to zero and applying non-negativity) is:
      $p_i^{k+1} = \max\left(0, \frac{2 p_{\text{pref},i} - \lambda_i^k + \beta p_i^k}{2 + \beta}\right)$
    
