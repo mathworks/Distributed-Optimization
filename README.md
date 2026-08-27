@@ -1468,7 +1468,7 @@ Future prospects to address these limitations include introducing more realistic
 
 3. **Average Consensus Problem** , in *Distributed Multi-Agent Optimization via Dual Decomposition* (Section 2.8) [Diva Portal](https://www.diva-portal.org/smash/get/diva2%3A453798/FULLTEXT01.pdf) .
 
-4. A. Nedić and A. Ozdaglar, “Distributed Subgradient Methods for Multi‐Agent Optimization,” *IEEE Trans. Autom. Control*, 54(1): 48–61, 2009 [SCIRP](https://www.scirp.org/%28S%28czeh2tfqw2orz553k1w0r45%29%29/reference/referencespapers?referenceid=3220708) .
+4. A. Nedić and A. Ozdaglar, “Distributed Subgradient Methods for Multi‐Agent Optimization,” *IEEE Trans. Autom. Control*, 54(1): 48–61, 2009 [IEEE](https://ieeexplore.ieee.org/document/4749425) .
 
 5. A. Nedić and A. Ozdaglar, “Distributed Subgradient Methods for Multi-Agent Optimization” (final manuscript), MIT [Massachusetts Institute of Technology](https://web.mit.edu/Asuman/Desktop/asuman/www/documents/distributed-journal-final.pdf) .
 
