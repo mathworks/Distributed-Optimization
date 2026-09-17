@@ -285,7 +285,7 @@ $$
 x_i^{(k+1)} =\sum_{j=1}^N W_{ij}x_j^{(k)} -\alpha\bigl(x_i^{(k)} - a_i\bigr) 
 $$
 
-where $W$ is a consensus weight matrix and $\alpha>0$ a step size ([SCIRP]([(https://www.scirp.org/reference/referencespapers?referenceid=3220708)]) ). Convergence under diminishing or small constant step sizes is well understood ([Massachusetts Institute of Technology](https://web.mit.edu/Asuman/Desktop/asuman/www/documents/distributed-journal-final.pdf)) .
+where $W$ is a consensus weight matrix and $\alpha>0$ a step size ([SCIRP](https://www.scirp.org/reference/referencespapers?referenceid=3220708)). Convergence under diminishing or small constant step sizes is well understood ([Massachusetts Institute of Technology](https://web.mit.edu/Asuman/Desktop/asuman/www/documents/distributed-journal-final.pdf)) .
 Beyond gradient schemes, **Consensus ADMM**  offers an operator‐splitting approach for such problems, decoupling local minimization from consensus constraints via augmented Lagrangians ([Stanford University](https://web.stanford.edu/~boyd/papers/pdf/admm_distr_stats.pdf)) . Advanced frameworks like **Consensus ALADIN**  extend these ideas to nonconvex and multi‐layer settings using second‐order information ([arXiv](https://arxiv.org/pdf/2306.05662) ). Other variants include **Consensus Equilibrium**  methods on toy inverse problems ([Purdue Engineering](https://engineering.purdue.edu/~bouman/Plug-and-Play/webdocs/SIIMS01.pdf) ), **event‐triggered**  updates to reduce communication ([ScienceDirect](https://www.sciencedirect.com/science/article/abs/pii/S0893608023006925) ), and **multi‐layer consensus**  for multi‐objective optimization in smart grids ([ScienceDirect](https://www.sciencedirect.com/science/article/abs/pii/S0306261921007923)) .
 
 ---
